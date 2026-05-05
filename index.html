@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionário — Unidade Integrada de Saúde Odontológica | PMESP</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1a2e45;
+    --navy-light: #243d5a;
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --cream: #f5f0e8;
+    --cream-dark: #e8e0d0;
+    --text: #1a1a2e;
+    --text-muted: #4a5568;
+    --border: #d0c8b8;
+    --white: #ffffff;
+    --success: #2d6a4f;
+    --success-bg: #d8f3dc;
+    --info-bg: #e8f1fa;
+    --info: #1a4a7a;
+    --warning-bg: #fef9e7;
+    --warning: #7d6608;
+    --danger-bg: #fdecea;
+    --danger: #922b21;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+  .header-stripe {
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header-badge {
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-badge svg { width: 22px; height: 22px; fill: var(--gold); }
+  .header-text { flex: 1; }
+  .header-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+  .step-counter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: var(--navy-mid);
+    padding: 10px 24px;
+  }
+  .progress-track {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    overflow-x: auto;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+  .prog-pill {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: rgba(201,168,76,0.5);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .prog-pill.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
+  .prog-pill.done { border-color: rgba(201,168,76,0.6); color: rgba(201,168,76,0.7); background: rgba(201,168,76,0.05); }
+  .progress-bar { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 0.5s ease; }
+
+  /* MAIN */
+  main { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* INTRO CARD */
+  .intro-card {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    border-left: 4px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+  }
+  .intro-card::after {
+    content: '';
+    position: absolute;
+    top: -10px; right: -10px;
+    width: 70px; height: 70px;
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 50%;
+  }
+  .intro-kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .intro-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .intro-desc {
+    font-size: 13px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .intro-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--gold);
+  }
+  .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  /* SECTION */
+  .section-card {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .section-head {
+    background: var(--navy-light);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+  .section-title-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .section-body { padding: 20px; }
+
+  /* QUESTION */
+  .q-block { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--cream-dark); }
+  .q-block:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .q-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .q-num-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--navy);
+    color: var(--gold);
+    border-radius: 4px;
+    padding: 2px 7px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .q-label { font-size: 14px; color: var(--text); line-height: 1.55; flex: 1; font-weight: 400; }
+  .q-type-tag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    letter-spacing: 0.03em;
+  }
+  .tag-quant { background: var(--info-bg); color: var(--info); border: 1px solid #b8d0ea; }
+  .tag-qual { background: var(--warning-bg); color: var(--warning); border: 1px solid #e8d870; }
+
+  /* INPUTS */
+  select, input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'Barlow', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(13,27,42,0.08);
+    background: var(--white);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5568' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+  /* LIKERT */
+  .likert-wrap { margin-top: 4px; }
+  .likert-row { display: flex; gap: 5px; }
+  .likert-opt { flex: 1; }
+  .likert-opt input[type="radio"] { display: none; }
+  .likert-opt label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 9px 4px 7px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--cream);
+    line-height: 1.3;
+    transition: all 0.18s;
+    min-height: 64px;
+    justify-content: center;
+  }
+  .likert-opt label .lk-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+  .likert-opt input:checked + label {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--gold-light);
+  }
+  .likert-opt input:checked + label .lk-num { color: var(--gold); }
+  .likert-opt label:hover { border-color: var(--navy-light); background: var(--info-bg); }
+
+  /* CHECKBOX GRID */
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+  @media(max-width: 500px) { .check-grid { grid-template-columns: 1fr; } }
+  .check-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 9px 11px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    background: var(--cream);
+    transition: all 0.15s;
+  }
+  .check-opt:hover { border-color: var(--navy-light); background: var(--info-bg); }
+  .check-opt input[type="checkbox"] { margin-top: 2px; accent-color: var(--navy); flex-shrink: 0; width: 14px; height: 14px; }
+  .check-opt span { font-size: 12.5px; color: var(--text); line-height: 1.4; }
+
+  /* RADIO COL */
+  .radio-col { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+  .radio-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    background: var(--cream);
+    transition: all 0.15s;
+  }
+  .radio-opt:hover { border-color: var(--navy-light); background: var(--info-bg); }
+  .radio-opt input[type="radio"] { accent-color: var(--navy); width: 14px; height: 14px; flex-shrink: 0; }
+  .radio-opt span { font-size: 13px; color: var(--text); line-height: 1.4; }
+
+  /* NAVIGATION BUTTONS */
+  .btn-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+  }
+  .btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 11px 24px;
+    border-radius: 7px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .btn:hover { background: var(--cream-dark); color: var(--text); border-color: var(--text-muted); }
+  .btn.primary {
+    background: var(--navy);
+    color: var(--gold);
+    border-color: var(--navy);
+  }
+  .btn.primary:hover { background: var(--navy-light); border-color: var(--navy-light); }
+  .btn.export {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+  .btn.export:hover { background: var(--gold-light); }
+  .btn.success-btn {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+    padding: 11px 28px;
+  }
+
+  /* SUMMARY */
+  .summary-wrap { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .summary-hero {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-top: 4px solid var(--gold);
+  }
+  .summary-icon { font-size: 36px; margin-bottom: 10px; }
+  .summary-hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .summary-hero-sub { font-size: 13px; color: rgba(245,240,232,0.65); }
+  .summary-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--navy); }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .summary-section { background: var(--white); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .summary-section-head { background: var(--navy); padding: 10px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--gold); text-transform: uppercase; }
+  .summary-item { display: flex; padding: 10px 18px; border-bottom: 1px solid var(--cream-dark); gap: 16px; align-items: flex-start; }
+  .summary-item:last-child { border-bottom: none; }
+  .sum-q { font-size: 12px; color: var(--text-muted); flex: 1.4; line-height: 1.5; }
+  .sum-a { font-size: 12.5px; color: var(--text); font-weight: 500; flex: 1; text-align: right; line-height: 1.5; word-break: break-word; }
+  .sum-empty { color: var(--border); font-style: italic; font-weight: 400; }
+
+  /* EXPORT ACTIONS */
+  .export-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+  /* PRINT */
+  @media print {
+    .site-header, .progress-wrap, .btn-bar, .export-actions, #stepNav { display: none !important; }
+    body { background: white; }
+    main { padding: 0; max-width: 100%; }
+    .intro-card, .summary-hero { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-head { background: var(--navy-light) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-stripe"></div>
+  <div class="header-inner">
+    <div class="header-badge">
+      <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2zm-1 13l-3-3 1.41-1.41L11 12.17l4.59-4.58L17 9l-6 6z"/></svg>
+    </div>
+    <div class="header-text">
+      <div class="header-title">Unidade Integrada de Saúde — Escola de Soldados</div>
+      <div class="header-sub">Polícia Militar do Estado de São Paulo · Avaliação Odontológica</div>
+    </div>
+    <div class="step-counter" id="stepCounter">Seção 1 de 7</div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-track">
+    <div class="progress-labels" id="stepNav"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:5%"></div></div>
+  </div>
+</div>
+
+<main>
+  <div id="app"></div>
+</main>
+
+<script>
+const STEPS = [
+  {
+    label: "Identificação",
+    sectionCode: "01",
+    sectionTitle: "Perfil do respondente",
+    questions: [
+      { id:"q01", n:"01", type:"select", kind:"quant", label:"Qual é o seu vínculo com a unidade?", opts:["Cirurgião-dentista da unidade","Técnico / auxiliar em saúde bucal","Gestor / oficial responsável pela unidade","Policial militar atendido (aluno da escola)","Policial militar atendido (efetivo)"] },
+      { id:"q02", n:"02", type:"select", kind:"quant", label:"Há quanto tempo tem contato com esta unidade?", opts:["Menos de 6 meses","De 6 meses a 1 ano","De 1 a 3 anos","Mais de 3 anos"] },
+      { id:"q03", n:"03", type:"select", kind:"quant", label:"Qual é o seu grau de instrução?", opts:["Ensino médio completo","Curso técnico","Superior incompleto","Superior completo","Pós-graduação (especialização, mestrado ou doutorado)"] },
+      { id:"q04", n:"04", type:"radio", kind:"quant", label:"Antes de ingressar na Polícia Militar, você tinha acesso regular a tratamento odontológico?", opts:["Sim, pelo sistema público (SUS)","Sim, pelo sistema privado ou plano odontológico","Não tinha acesso regular a atendimento odontológico","Não se aplica (sou profissional de saúde da unidade)"] }
+    ]
+  },
+  {
+    label: "Dimensão Assistencial",
+    sectionCode: "02",
+    sectionTitle: "Capacidade produtiva e resolutividade",
+    questions: [
+      { id:"q05", n:"05", type:"likert", kind:"quant", label:"A unidade consegue atender a demanda de pacientes dentro de prazos considerados razoáveis.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q06", n:"06", type:"likert", kind:"quant", label:"A maioria dos casos atendidos é resolvida internamente, sem necessidade de encaminhamento para serviços externos.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q07", n:"07", type:"number", kind:"quant", label:"Estimativa: quantos atendimentos odontológicos são realizados por mês na unidade?", placeholder:"Ex: 120" },
+      { id:"q08", n:"08", type:"checkgrid", kind:"quant", label:"Quais procedimentos são realizados rotineiramente nesta unidade? (marque todos que se aplicam)", opts:["Consulta inicial / anamnese","Restaurações dentárias","Extrações simples","Raspagem periodontal","Tratamento endodôntico (canal)","Radiografias periapicais","Radiografia panorâmica","Atendimento de urgências e emergências","Orientação de higiene bucal","Cadastro de arcada (odontologia legal)","Confecção ou ajuste de prótese","Outros procedimentos especializados"] },
+      { id:"q09", n:"09", type:"textarea", kind:"qual", label:"Em sua opinião, quais tipos de atendimento a unidade ainda não oferece e que seriam necessários para a tropa?", placeholder:"Descreva as lacunas assistenciais que você observa no dia a dia..." }
+    ]
+  },
+  {
+    label: "Saúde da Tropa",
+    sectionCode: "03",
+    sectionTitle: "Condição bucal dos recrutas ao ingresso",
+    questions: [
+      { id:"q10", n:"10", type:"likert", kind:"quant", label:"Ao ingressar na escola, a maioria dos recrutas apresenta alguma necessidade de tratamento odontológico.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q11", n:"11", type:"radio", kind:"quant", label:"Qual é a condição mais prevalente observada nos recrutas ao ingressar na escola?", opts:["Cárie ativa não tratada","Doença periodontal (gengivite ou periodontite)","Ausências dentárias sem reabilitação protética","Maloclusão clinicamente relevante","Todas as condições em proporções semelhantes","Não tenho dados suficientes para avaliar"] },
+      { id:"q12", n:"12", type:"number", kind:"quant", label:"Estimativa: qual o percentual (%) de recrutas que nunca haviam consultado um cirurgião-dentista antes do ingresso na PM?", placeholder:"Ex: 15" },
+      { id:"q13", n:"13", type:"likert", kind:"quant", label:"O acompanhamento oferecido pela unidade contribui para a melhoria da saúde bucal dos PMs ao longo do curso ou do serviço.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q14", n:"14", type:"textarea", kind:"qual", label:"Descreva o perfil típico do recruta que chega à unidade em termos de saúde bucal. Quais condições chamam mais atenção clinicamente?", placeholder:"Relate sua experiência clínica, observações frequentes, casos marcantes..." }
+    ]
+  },
+  {
+    label: "Odontologia Legal",
+    sectionCode: "04",
+    sectionTitle: "Cadastro e identificação odontológica",
+    questions: [
+      { id:"q15", n:"15", type:"likert", kind:"quant", label:"Os registros odontológicos produzidos no cadastro estão padronizados e são adequados para uso em identificação humana (confronto ante-mortem / post-mortem).", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q16", n:"16", type:"likert", kind:"quant", label:"As fichas de cadastro estão sendo arquivadas de forma organizada, segura e acessível para consulta futura.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q17", n:"17", type:"radio", kind:"quant", label:"Como é realizado atualmente o registro para fins de odontologia legal?", opts:["Somente ficha em papel","Ficha em papel complementada por radiografias físicas","Prontuário eletrônico (ficha digital)","Prontuário eletrônico com imagens digitalizadas","Não tenho conhecimento suficiente do processo"] },
+      { id:"q18", n:"18", type:"likert", kind:"quant", label:"A qualidade das radiografias arquivadas é suficiente para confronto comparativo em caso de identificação post-mortem.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q19", n:"19", type:"checkgrid", kind:"quant", label:"Quais dados são coletados no cadastro odontolegal desta unidade? (marque todos que se aplicam)", opts:["Odontograma completo","Radiografia panorâmica","Radiografias periapicais selecionadas","Fotografias intrabucais","Rugoscopia palatina","Queiloscopia (impressão labial)","Registro de próteses ou implantes","Nenhum dos itens acima"] },
+      { id:"q20", n:"20", type:"textarea", kind:"qual", label:"Quais melhorias você sugere no processo de cadastro odontolegal para aumentar sua utilidade para identificação humana?", placeholder:"Ex: digitalização dos registros, padronização de protocolos, integração com IML / banco de dados externo..." }
+    ]
+  },
+  {
+    label: "Gargalos",
+    sectionCode: "05",
+    sectionTitle: "Identificação de gargalos e limitações operacionais",
+    questions: [
+      { id:"q21", n:"21", type:"checkgrid", kind:"quant", label:"Quais são os principais gargalos que a unidade enfrenta atualmente? (marque todos que se aplicam)", opts:["Falta ou deterioração de equipamentos","Insuficiência de recursos humanos (CDs / auxiliares)","Espaço físico inadequado ou insuficiente","Falta regular de insumos e materiais","Sistema de agendamento ineficiente","Ausência de prontuário eletrônico","Alta rotatividade de profissionais","Falta de integração com outros serviços de saúde da PM","Burocracia administrativa excessiva","Falta de capacitação continuada da equipe","Alto índice de absenteísmo dos pacientes","Ausência de integração com IML ou banco de dados externo"] },
+      { id:"q22", n:"22", type:"likert", kind:"quant", label:"A infraestrutura física (consultórios, salas, equipamentos) é adequada para o volume de atendimentos realizados.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q23", n:"23", type:"likert", kind:"quant", label:"O número de profissionais (cirurgiões-dentistas e auxiliares) é suficiente para atender a demanda da unidade.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q24", n:"24", type:"likert", kind:"quant", label:"Os equipamentos disponíveis estão em bom estado de conservação e funcionamento.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q25", n:"25", type:"likert", kind:"quant", label:"O abastecimento de materiais e insumos odontológicos ocorre de forma regular, sem interrupções prejudiciais ao atendimento.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q26", n:"26", type:"textarea", kind:"qual", label:"Descreva a situação que considera o maior gargalo operacional da unidade atualmente. Relate o problema, suas causas percebidas e o impacto no atendimento.", placeholder:"Seja específico: descreva o problema, quando ocorre, com que frequência e quais consequências observa..." }
+    ]
+  },
+  {
+    label: "Gestão e Relevância",
+    sectionCode: "06",
+    sectionTitle: "Gestão, impacto institucional e valor estratégico",
+    questions: [
+      { id:"q27", n:"27", type:"likert", kind:"quant", label:"A unidade contribui diretamente para a prontidão operacional dos PMs, reduzindo afastamentos por problemas de saúde bucal.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q28", n:"28", type:"likert", kind:"quant", label:"Os dados produzidos pela unidade são utilizados para embasar decisões de gestão de saúde no âmbito da corporação.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q29", n:"29", type:"likert", kind:"quant", label:"A atividade de odontologia legal realizada nesta unidade é reconhecida como estratégica pela gestão da corporação.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q30", n:"30", type:"radio", kind:"quant", label:"Existe algum mecanismo formal de avaliação de desempenho ou qualidade nesta unidade?", opts:["Sim, com indicadores bem definidos e registrados","Sim, mas de forma informal e não sistematizada","Está em fase de implantação","Não existe atualmente","Não tenho informação sobre isso"] },
+      { id:"q31", n:"31", type:"textarea", kind:"qual", label:"Que dados ou indicadores você considera que a unidade deveria registrar sistematicamente, mas ainda não registra?", placeholder:"Ex: índice CPOD por turma, percentual de necessidade de tratamento ao ingresso, custo evitado, tempo médio de espera..." },
+      { id:"q32", n:"32", type:"textarea", kind:"qual", label:"Em sua visão, qual é o principal argumento para demonstrar a relevância desta unidade para a corporação e para o sistema de saúde pública?", placeholder:"Fale livremente sobre o valor que a unidade representa institucionalmente, clinicamente ou juridicamente..." }
+    ]
+  },
+  {
+    label: "Satisfação Geral",
+    sectionCode: "07",
+    sectionTitle: "Percepção geral e satisfação com a unidade",
+    questions: [
+      { id:"q33", n:"33", type:"likert", kind:"quant", label:"De forma geral, estou satisfeito(a) com o funcionamento da unidade odontológica.", scale:["Muito insatisfeito","Insatisfeito","Neutro","Satisfeito","Muito satisfeito"] },
+      { id:"q34", n:"34", type:"likert", kind:"quant", label:"A unidade trata os pacientes com respeito, clareza nas informações e postura humanizada.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q35", n:"35", type:"likert", kind:"quant", label:"O tempo de espera para agendamento e para o atendimento é considerado aceitável.", scale:["Discordo totalmente","Discordo","Neutro","Concordo","Concordo totalmente"] },
+      { id:"q36", n:"36", type:"textarea", kind:"qual", label:"Qual é o ponto forte que você mais destaca nesta unidade? Por quê?", placeholder:"Relate o aspecto positivo mais marcante da unidade em sua experiência..." },
+      { id:"q37", n:"37", type:"textarea", kind:"qual", label:"Se você pudesse mudar uma coisa na unidade imediatamente, o que seria?", placeholder:"Seja específico. Qualquer melhoria, grande ou pequena, que faria diferença real no dia a dia..." }
+    ]
+  }
+];
+
+let current = 0;
+const answers = {};
+const completed = new Set();
+
+function save(id, val) { answers[id] = val; }
+function saveCheck(id, val, checked) {
+  if (!answers[id]) answers[id] = [];
+  if (checked) { if (!answers[id].includes(val)) answers[id].push(val); }
+  else answers[id] = answers[id].filter(v => v !== val);
+}
+
+/* ========================= */
+/* 🔥 NOVA FUNÇÃO (PASSO 4)  */
+/* ========================= */
+async function enviarParaGoogleSheets() {
+  const url = "https://script.google.com/macros/s/AKfycbzFVxJZaj0_JvfIRHfIBvtYsqois5OSgTt7ZZPPRpPQWHl1CJY_8AIx60vWADb5EJyS/exec";
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(answers),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    alert("Respostas enviadas com sucesso!");
+  } catch (err) {
+    alert("Erro ao enviar respostas.");
+    console.error(err);
+  }
+}
+
+/* ========================= */
+
+
+function renderNav() {
+  const nav = document.getElementById('stepNav');
+  nav.innerHTML = STEPS.map((s,i) => {
+    const cls = i === current ? 'active' : (completed.has(i) ? 'done' : '');
+    return `<button class="prog-pill ${cls}" onclick="goTo(${i})">${i+1}. ${s.label}</button>`;
+  }).join('');
+  const pct = Math.round(((current + (completed.has(current)?1:0)) / STEPS.length) * 100);
+  document.getElementById('progFill').style.width = Math.max(pct,5)+'%';
+  if (current < STEPS.length)
+    document.getElementById('stepCounter').textContent = `Seção ${current+1} de ${STEPS.length}`;
+  else
+    document.getElementById('stepCounter').textContent = 'Resumo';
+}
+
+function renderQuestion(q) {
+  const tagCls = q.kind==='quant'?'tag-quant':'tag-qual';
+  const tagLbl = q.kind==='quant'?'Quantitativa':'Qualitativa';
+  let input = '';
+  if (q.type==='select') {
+    input = `<select onchange="save('${q.id}',this.value)"><option value="">Selecione uma opção...</option>${q.opts.map(o=>`<option value="${o}"${answers[q.id]===o?' selected':''}>${o}</option>`).join('')}</select>`;
+  } else if (q.type==='radio') {
+    input = `<div class="radio-col">${q.opts.map(o=>`<label class="radio-opt"><input type="radio" name="${q.id}" value="${o}"${answers[q.id]===o?' checked':''} onchange="save('${q.id}',this.value)"><span>${o}</span></label>`).join('')}</div>`;
+  } else if (q.type==='likert') {
+    input = `<div class="likert-wrap"><div class="likert-row">${q.scale.map((s,i)=>`<div class="likert-opt"><input type="radio" name="${q.id}" id="${q.id}_${i}" value="${i+1}"${answers[q.id]===(i+1).toString()?' checked':''} onchange="save('${q.id}',this.value)"><label for="${q.id}_${i}"><span class="lk-num">${i+1}</span>${s}</label></div>`).join('')}</div></div>`;
+  } else if (q.type==='checkgrid') {
+    const sel = answers[q.id]||[];
+    input = `<div class="check-grid">${q.opts.map(o=>`<label class="check-opt"><input type="checkbox" value="${o}"${sel.includes(o)?' checked':''} onchange="saveCheck('${q.id}','${o}',this.checked)"><span>${o}</span></label>`).join('')}</div>`;
+  } else if (q.type==='number') {
+    input = `<input type="number" min="0" max="100" placeholder="${q.placeholder||''}" value="${answers[q.id]||''}" oninput="save('${q.id}',this.value)">`;
+  } else if (q.type==='textarea') {
+    input = `<textarea placeholder="${q.placeholder||''}" oninput="save('${q.id}',this.value)">${answers[q.id]||''}</textarea>`;
+  }
+  return `<div class="q-block">
+    <div class="q-row">
+      <span class="q-num-badge">${q.n}</span>
+      <span class="q-label">${q.label}</span>
+      <span class="q-type-tag ${tagCls}">${tagLbl}</span>
+    </div>
+    ${input}
+  </div>`;
+}
+
+function renderStep() {
+  const step = STEPS[current];
+  return `<div class="intro-card">
+    <div class="intro-kicker">Polícia Militar do Estado de São Paulo · Escola de Soldados</div>
+    <div class="intro-title">Questionário de Avaliação da Unidade Integrada de Saúde Odontológica</div>
+    <div class="intro-desc">Instrumento misto (quantitativo e qualitativo) para levantamento de indicadores de relevância, desempenho e gargalos operacionais. Suas respostas são confidenciais e serão utilizadas exclusivamente para fins de pesquisa científica e melhoria institucional.</div>
+    <div class="intro-meta">
+      <span class="meta-item"><span class="meta-dot"></span>37 questões · 7 seções</span>
+      <span class="meta-item"><span class="meta-dot"></span>Tempo estimado: 12–18 min</span>
+      <span class="meta-item"><span class="meta-dot"></span>Respondente: profissional de saúde ou PM</span>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-head"><span class="section-num">SEÇÃO ${step.sectionCode}</span><span class="section-title-text">${step.sectionTitle}</span></div>
+    <div class="section-body">${step.questions.map(renderQuestion).join('')}</div>
+  </div>
+  <div class="btn-bar">
+    ${current>0?`<button class="btn" onclick="prev()">← Anterior</button>`:'<span></span>'}
+    ${current<STEPS.length-1?`<button class="btn primary" onclick="next()">Próxima seção →</button>`:`<button class="btn primary" onclick="finish()">Ver resumo e exportar →</button>`}
+  </div>`;
+}
+
+function renderSummary() {
+  let total = 0, answered = 0;
+  STEPS.forEach(s => s.questions.forEach(q => { total++; const v=answers[q.id]; if(v&&(Array.isArray(v)?v.length>0:String(v).trim())) answered++; }));
+  const quant = STEPS.flatMap(s=>s.questions).filter(q=>q.kind==='quant').length;
+  const qual = STEPS.flatMap(s=>s.questions).filter(q=>q.kind==='qual').length;
+
+  let sections = STEPS.map(step => {
+    let items = step.questions.map(q => {
+      const val = answers[q.id];
+      const display = Array.isArray(val)?val.join('; '):(val||'');
+     return `<div class="summary-item"><span class="sum-q">${q.n}. ${q.label.length>70?q.label.substring(0,70)+'...':q.label}</span><span class="sum-a ${display?'':'sum-empty'}">${display||'Não respondido'}</span></div>`;
+    }).join('');
+    return `<div class="summary-section"><div class="summary-section-head">Seção ${step.sectionCode} — ${step.sectionTitle}</div>${items}</div>`;
+  }).join('');
+
+  return `<div class="summary-wrap">
+    <div class="summary-hero">
+      <div class="summary-icon">✓</div>
+      <div class="summary-hero-title">Questionário concluído</div>
+      <div class="summary-hero-sub">Revise suas respostas abaixo e utilize os botões para exportar os dados.</div>
+    </div>
+    <div class="summary-stats">
+      <div class="stat-card"><div class="stat-num">${answered}</div><div class="stat-lbl">Questões respondidas</div></div>
+      <div class="stat-card"><div class="stat-num">${quant}</div><div class="stat-lbl">Questões quantitativas</div></div>
+      <div class="stat-card"><div class="stat-num">${qual}</div><div class="stat-lbl">Questões qualitativas</div></div>
+    </div>
+    ${sections}
+    <div class="export-actions">
+      <button class="btn export" onclick="exportTxt()">Exportar como texto (.txt)</button>
+      <button class="btn export" onclick="exportCSV()">Exportar como CSV</button>
+
+      <!-- 🔥 BOTÃO NOVO -->
+      <button class="btn success-btn" onclick="enviarParaGoogleSheets()">Enviar respostas</button>
+
+      <button class="btn" onclick="window.print()">Imprimir / salvar PDF</button>
+      <button class="btn" onclick="current=0;render()">← Reiniciar</button>
+    </div>
+  </div>`;
+}
+
+function exportTxt() {
+  let out = 'QUESTIONÁRIO — UNIDADE INTEGRADA DE SAÚDE ODONTOLÓGICA\n';
+  out += 'Polícia Militar do Estado de São Paulo — Escola de Soldados\n';
+  out += '='.repeat(62)+'\n';
+  out += 'Data de exportação: '+new Date().toLocaleDateString('pt-BR')+'\n\n';
+  STEPS.forEach(step => {
+    out += `\n▸ SEÇÃO ${step.sectionCode} — ${step.sectionTitle.toUpperCase()}\n${'─'.repeat(50)}\n`;
+    step.questions.forEach(q => {
+      const val = answers[q.id];
+      const display = Array.isArray(val)?val.join('; '):(val||'[não respondido]');
+      out += `[Q${q.n}][${q.kind.toUpperCase()}] ${q.label}\n  → ${display}\n\n`;
+    });
+  });
+  const blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'respostas_questionario_pmesp_'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+}
+
+function exportCSV() {
+  const rows = [['Número','Tipo','Natureza','Pergunta','Resposta']];
+  STEPS.forEach(step => {
+    step.questions.forEach(q => {
+      const val = answers[q.id];
+      const display = Array.isArray(val)?val.join('; '):(val||'');
+      rows.push([q.n, q.type, q.kind, `"${q.label.replace(/"/g,"'")}"`, `"${display.replace(/"/g,"'")}"`]);
+    });
+  });
+  const csv = rows.map(r=>r.join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'respostas_questionario_pmesp_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+function next() { completed.add(current); current++; render(); window.scrollTo(0,0); }
+function prev() { current--; render(); window.scrollTo(0,0); }
+function finish() { completed.add(current); current=STEPS.length; render(); window.scrollTo(0,0); }
+function goTo(i) { current=i; render(); window.scrollTo(0,0); }
+
+function render() {
+  document.getElementById('app').innerHTML = current>=STEPS.length ? renderSummary() : renderStep();
+  renderNav();
+}
+
+render();
+
+</script>
+</body>
+</html>
