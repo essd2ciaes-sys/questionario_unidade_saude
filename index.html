@@ -581,23 +581,23 @@ function saveCheck(id, val, checked) {
 /* ========================= */
 /* 🔥 NOVA FUNÇÃO (PASSO 4)  */
 /* ========================= */
-async function enviarParaGoogleSheets() {
-  const url = "https://script.google.com/macros/s/AKfycbzFVxJZaj0_JvfIRHfIBvtYsqois5OSgTt7ZZPPRpPQWHl1CJY_8AIx60vWADb5EJyS/exec";
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(answers),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-
-    alert("Respostas enviadas com sucesso!");
-  } catch (err) {
-    alert("Erro ao enviar respostas.");
+function enviarParaGoogleSheets() {
+  fetch("https://script.google.com/macros/s/AKfycbx6mWm_lH_yGn0c8HL-lljP64naIG78IJZ25uibwcaJqG7Sd_nA6hIyqmoVBpcXVP6t/exec", {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify(answers),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Dados enviados com sucesso!");
+  })
+  .catch(err => {
+    alert("Erro ao enviar!");
     console.error(err);
-  }
+  });
 }
 
 /* ========================= */
